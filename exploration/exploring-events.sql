@@ -62,14 +62,21 @@ select top 1000
     er.msevtmgt_contactid as contact_id,
     c.Id as checkin_id,
     case
-    when c.id is NULL then 'no'
-    else 'yes'
+    when c.id is not null 
+        then 'yes'
+    when e.msevtmgt_eventenddate > dateadd(week, -1, getdate())
+        -- the event was recent, there's still time for attendence to be confirmed
+        then 'unknown'
+    else 'no'
     end as attended
 
 from
     crm_msevtmgt_eventregistration er
 left outer join
     crm_msevtmgt_checkin c on er.Id = c.msevtmgt_registrationid
+inner join
+    crm_msevtmgt_event e on er.msevtmgt_eventid = e.Id
+order by e.msevtmgt_eventenddate desc
 
 
 select top 1000
