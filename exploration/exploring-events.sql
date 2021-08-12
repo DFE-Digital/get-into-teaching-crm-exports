@@ -43,7 +43,7 @@ inner join
     crm_msevtmgt_building b on e.msevtmgt_building = b.Id
 
 
-select * from INFORMATION_SCHEMA.tables where table_name like '%building%';
+select * from INFORMATION_SCHEMA.tables where table_name like '%check%';
 
 select top 100 *
 from crm_msevtmgt_building
@@ -53,15 +53,60 @@ from crm_msevtmgt_building
 select top 1000 *
 from crm_msevtmgt_eventregistration
 
-
+-- this should probably be the 'event_registration' view
 select top 1000
     er.Id as id,
     er.msevtmgt_eventid as event_id,
     er.msevtmgt_name as name,
     -- er.msevtmgt_contactidyominame as contact_name,
-    er.msevtmgt_contactid as contact_id
+    er.msevtmgt_contactid as contact_id,
+    c.Id as checkin_id,
+    case
+    when c.id is NULL then 'no'
+    else 'yes'
+    end as attended
 
 from
     crm_msevtmgt_eventregistration er
+left outer join
+    crm_msevtmgt_checkin c on er.Id = c.msevtmgt_registrationid
 
-/go
+
+select top 1000
+    er.msevtmgt_contactid as contact_id,
+    count(*) as quantity
+from
+    crm_msevtmgt_eventregistration er
+group by
+    er.msevtmgt_contactid
+order by
+    quantity desc;
+
+select
+    er.msevtmgt_eventid as event_id,
+    er.msevtmgt_contactidyominame as contact_name,
+    er.msevtmgt_name as name,
+    c.Id
+from
+    crm_msevtmgt_eventregistration er
+left outer join
+    crm_msevtmgt_checkin c on er.Id = c.msevtmgt_registrationid
+where er.msevtmgt_contactid = 'e7d1c859-b86a-e911-a824-000d3ab08ce9';
+
+
+
+select statuscode, count(*) from crm_msevtmgt_eventregistration group by statuscode;
+
+
+
+
+select
+    cast(e.msevtmgt_eventstartdate as date) as start_date,
+    count(*)
+from
+    crm_msevtmgt_event e
+group by 
+    e.msevtmgt_eventstartdate;
+
+select top 100 *
+from crm_msevtmgt_checkin;
