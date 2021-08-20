@@ -50,6 +50,14 @@ from crm_msevtmgt_building
 
 
 
+select top 500 * from crm_OptionSetMetadata;
+select distinct optionsetname from crm_OptionSetMetadata;
+
+select * from crm_OptionSetMetadata where optionsetname = 'dfe_eventstatus'
+
+select top 1000 * from crm_msevtmgt_checkin
+
+
 select top 1000 *
 from crm_msevtmgt_eventregistration
 
@@ -117,3 +125,21 @@ group by
 
 select top 100 *
 from crm_msevtmgt_checkin;
+
+
+select count(*) from crm_msevtmgt_eventregistration
+
+
+
+
+select top 100 * from crm_msevtmgt_eventregistration order by createdon desc
+
+-- channel creation
+
+select * from crm_OptionSetMetadata where optionsetname = 'dfe_channelcreation'
+
+
+select distinct optionsetname
+from crm_OptionSetMetadata
+where optionsetname like '%channel%'
+order by OptionSetName
