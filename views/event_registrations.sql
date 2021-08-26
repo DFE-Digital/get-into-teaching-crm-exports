@@ -1,5 +1,6 @@
 -- create view git.event_registrations as (
 select
+    top 1000
     er.Id as id,
     er.msevtmgt_eventid as event_id,
     er.msevtmgt_contactid as contact_id,
@@ -12,7 +13,7 @@ select
         then 'unknown'
     else 'no'
     end as attended,
-    convert(smalldatetime, er.createdon) as created_on,
+    convert(smalldatetime, er.createdon) as registered_on,
     convert(smalldatetime, c.createdon) as attendence_confirmed_on,
     md.LocalizedLabel as creation_channel
 
