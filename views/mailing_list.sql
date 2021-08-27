@@ -28,7 +28,7 @@ select
         when 0 then 'no'
         when 1 then 'yes'
         else null 
-    end as opt_out_of_post
+    end as opted_out_of_post
 
 from
     crm_contact c
@@ -36,4 +36,7 @@ from
 left outer join
     crm_OptionSetMetadata ml_subscription_channel_lookup
         on c.dfe_gitismlservicesubscriptionchannel = ml_subscription_channel_lookup.[Option]
-        and ml_subscription_channel_lookup.optionsetname = 'dfe_gitismlservicesubscriptionchannel';
+        and ml_subscription_channel_lookup.optionsetname = 'dfe_gitismlservicesubscriptionchannel'
+
+where
+    c.dfe_gitismailinglistservicestartdate is not null;

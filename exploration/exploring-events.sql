@@ -50,7 +50,13 @@ from crm_msevtmgt_building
 
 
 
-select top 500 * from crm_OptionSetMetadata;
+select top 500 * from crm_OptionSetMetadata
+
+select [option], count(*) from crm_OptionSetMetadata group by [option] order by count(*) desc
+
+select * from crm_OptionSetMetadata where [option] = 222750000;
+
+
 select distinct optionsetname from crm_OptionSetMetadata;
 
 select * from crm_OptionSetMetadata where optionsetname = 'dfe_eventstatus'
@@ -143,3 +149,29 @@ select distinct optionsetname
 from crm_OptionSetMetadata
 where optionsetname like '%channel%'
 order by OptionSetName
+
+
+/* Mailing list stuff */
+
+select * from information_schema.views where table_name like '%mail%';
+
+-- no permissions, definition is empty
+select * from sys.sql_modules where object_id = OBJECT_ID('PowerBI.DFE_MailingListSignup');
+
+select top 100 * from  crm_dfe_candidatejourneystep;
+
+select top 100 * from  crm_dfe_teachingsubjectlist;
+
+select * from information_schema.tables where table_name like '%candidate%';
+
+select top 100 * from crm_dfe_candidateschoolexperience;
+
+select top 100 * from crm_dfe_candidatepastteachingposition;
+
+select top 100 * from 
+
+select * from information_schema.columns where column_name like '%mailing%'
+
+select top 1000 table_schema, table_name, column_name, ordinal_position, data_type from information_schema.columns where table_name = 'crm_contact' and table_schema = 'dbo' and column_name like 'dfe%' order by ordinal_position asc;
+
+select top 100 * from crm_dfe_config
