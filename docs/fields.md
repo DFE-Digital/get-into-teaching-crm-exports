@@ -4,7 +4,7 @@ This is a summary of the views we intend on exporting from the GITIS CRM.
 
 The `PII risk` column is an estimation of how risky the data is from the point of view of identifying a candidate, from 0 (no risk) to 3 (identifiable).
 
-They are currently all zero, we intend on keeping it that way.
+We aim to maintain this overall risk at zero.
 
 ## `git.mailing_list_subscriptions`
 
