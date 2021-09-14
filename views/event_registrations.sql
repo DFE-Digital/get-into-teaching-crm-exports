@@ -31,10 +31,10 @@ create view git.event_registrations as (
 		end as attended,
 
 		-- the date the registration was made (e.g., 2021-05-30)
-		convert(smalldatetime, er.createdon) as registered_on,
+		convert(smalldatetime, er.createdon) as registered_at,
 
 		-- the date the attendance was confirmed (e.g., 2021-06-12)
-		convert(smalldatetime, ci.createdon) as attendance_confirmed_on,
+		convert(smalldatetime, ci.createdon) as attendance_confirmed_at,
 
 		-- creation channel pulled from common lookup table via 'dfe_ChannelCreation'
 		cc.LocalizedLabel as creation_channel
