@@ -22,8 +22,12 @@ def datetime_in_past(year: 3)
   DateTime.now - (adjust * Kernel.rand(-0.99..0.99))
 end
 
+def format_datetime(date)
+  date.strftime("%Y-%m-%d %H:%M:00")
+end
+
 def format_date(date)
-  date.strftime("%Y-%m-%d %H:%M")
+  date.strftime("%Y-%m-%d")
 end
 
 def event_times(date)
@@ -33,7 +37,7 @@ def event_times(date)
   [
     DateTime.new(date.year, date.month, date.day, start_time[0], start_time[1]),
     DateTime.new(date.year, date.month, date.day, finish_time[0], finish_time[1])
-  ].map { |d| format_date(d) }
+  ].map { |d| format_datetime(d) }
 end
 
 def write_csv(data, filename, headers:)
@@ -121,8 +125,8 @@ class EventRegistration
       event_id: event_id,
       contact_id: contact_id,
       attended: attended,
-      registered_at: format_date(event.date - (5..70).to_a.sample),
-      attendance_confirmed_at: format_date(event.date + (1..7).to_a.sample),
+      registered_at: format_datetime(event.date - (5..70).to_a.sample),
+      attendance_confirmed_at: format_datetime(event.date + (1..7).to_a.sample),
       creation_channel: "Website"
     }
   end
@@ -158,7 +162,7 @@ class MailingListSignup
   def to_h
     {
       contact_id: contact_id,
-      subscribed_at: format_date(subscribed_at),
+      subscribed_at: format_datetime(subscribed_at),
       subscription_channel: subscription_channel,
       still_subscribed: still_subscribed,
       opted_out_of_all_emails: opted_out_of_all_emails,
@@ -200,7 +204,7 @@ class TeacherTrainingAdviserSignup
   def to_h
     {
       contact_id: contact_id,
-      signed_up_at: format_date(signed_up_at),
+      signed_up_at: format_datetime(signed_up_at),
       subscription_channel: subscription_channel,
       opted_out_of_all_emails: opted_out_of_all_emails,
       opted_out_of_bulk_emails: opted_out_of_bulk_emails,
