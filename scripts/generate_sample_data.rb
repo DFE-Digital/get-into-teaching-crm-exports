@@ -86,7 +86,7 @@ class Event
 
   def to_h
     {
-      id: SecureRandom.uuid,
+      id: id,
       venue: "#{name} venue",
       starts_at: times[0],
       finishes_at: times[1],
@@ -121,7 +121,7 @@ class EventRegistration
 
   def to_h
     {
-      id: SecureRandom.uuid,
+      id: id,
       event_id: event_id,
       contact_id: contact_id,
       attended: attended,
