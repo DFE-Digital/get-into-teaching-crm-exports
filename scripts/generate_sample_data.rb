@@ -19,7 +19,7 @@ TTA_SIGNUPS          = 3_000
 def datetime_in_past(year: 3)
   adjust = Kernel.rand(DAYS_IN_YEAR * year)
 
-  DateTime.now - (adjust * Kernel.rand(-0.99..0.99))
+  DateTime.now - (adjust * Kernel.rand(-0.2..1.2))
 end
 
 def format_datetime(date)
