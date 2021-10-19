@@ -2,9 +2,6 @@ create view git.event_registrations as (
 	-- shows a full list of event registrations. A registration
 	-- is a record that joins an event with a contact and potentially
 	-- a checkin.
-	--
-	-- TODO: there appears to be a 1:0..1 relationship between registration
-	--       and checkin and I can't work out why
 	select
 		-- the event registration id (guid)
 		er.id as id,
