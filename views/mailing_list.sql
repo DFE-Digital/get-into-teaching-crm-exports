@@ -5,8 +5,11 @@ create view git.mailing_list_subscriptions as (
 		-- contact id, matches contact_id in event_registrations, tta views etc (guid)
 		c.id as contact_id,
 
-		-- the date and time a subscription was made (eg. 2021-08-01 16:48)
+		-- the date and time a subscription was made (eg. 2021-08-01T16:48:02)
 		convert(smalldatetime, c.dfe_gitismailinglistservicestartdate) as subscribed_at,
+
+		-- the date on which a subscription was made (eg. 2021-08-01)
+		convert(date, c.dfe_gitismailinglistservicestartdate) as subscribed_on,
 
 		-- subscription channel pulled from the common lookup table
 		-- channels include things like 'on campus service', 'social media',

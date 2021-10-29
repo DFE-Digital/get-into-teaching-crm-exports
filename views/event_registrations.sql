@@ -27,8 +27,11 @@ create view git.event_registrations as (
 		else 'no'
 		end as attended,
 
-		-- the date the registration was made (e.g., 2021-05-30)
+		-- the timestamp the registration was made (e.g., 2021-05-30T10:12:34)
 		convert(smalldatetime, er.createdon) as registered_at,
+
+		-- the date the registration was made (e.g., 2021-05-30)
+		convert(date, er.createdon) as registered_on,
 
 		-- the date the attendance was confirmed (e.g., 2021-06-12)
 		convert(smalldatetime, ci.createdon) as attendance_confirmed_at,
