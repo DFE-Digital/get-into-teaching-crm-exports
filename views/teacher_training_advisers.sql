@@ -1,4 +1,4 @@
-create view as git.teacher_training_adviser_signups as (
+alter view git.teacher_training_adviser_signups as (
 	-- shows all contacts who have signed up for a TTA
 	select
 		-- contact id, matches contact_id in event_registrations, mailing list views etc (guid)

@@ -1,4 +1,4 @@
-create view git.events as (
+alter view git.events as (
 	-- shows a full list of events containing date, building and status
 	select
 		-- the event id (guid)
@@ -48,7 +48,4 @@ create view git.events as (
 			on e.dfe_EventStatus = es.[Option]
 			and es.OptionSetName = 'dfe_eventstatus'
 			and es.EntityName = 'msevtmgt_event'
-
-	order by
-		e.msevtmgt_eventenddate desc
 );

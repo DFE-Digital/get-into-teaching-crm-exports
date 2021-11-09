@@ -1,4 +1,4 @@
-create view git.mailing_list_subscriptions as (
+alter view git.mailing_list_subscriptions as (
 	-- shows all contacts, their subscription channel and indicators
 	-- of whether they're still subscribed to emails, post, bulk mail etc
 	select

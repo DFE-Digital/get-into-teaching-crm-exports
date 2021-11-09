@@ -1,4 +1,4 @@
-create view git.event_registrations as (
+alter view git.event_registrations as (
 	-- shows a full list of event registrations. A registration
 	-- is a record that joins an event with a contact and potentially
 	-- a checkin.
@@ -61,6 +61,4 @@ create view git.event_registrations as (
 			and cc.OptionSetName = 'dfe_channelcreation'
 			and cc.EntityName = 'msevtmgt_eventregistration'
 
-	order by
-		e.msevtmgt_eventenddate desc
 );
