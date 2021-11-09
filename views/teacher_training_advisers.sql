@@ -7,6 +7,9 @@ alter view git.teacher_training_adviser_signups as (
 		-- the date and time the signup was completed
 		convert(smalldatetime, c.dfe_gitisttaservicestartdate) as signed_up_at,
 
+		-- the date on which the signup was completed
+		convert(date, c.dfe_gitisttaservicestartdate) as signed_up_on,
+
 		-- subscription channel pulled from the common lookup table
 		-- channels include things like 'on campus service', 'social media',
 		-- 'grad fairs', 'pop-up events' etc
