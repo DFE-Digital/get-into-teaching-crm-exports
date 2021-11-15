@@ -20,7 +20,6 @@ alter view git.school_experience_events as
     -- 01/01/2021 REQUEST                01/02/2021 111111 Springfield Elementary School
     -- 02/01/2021 ACCEPTED               01/02/2021 111111 Springfield Elementary School
     --
-    -- When there's no data the string 'RTBF' is present; not sure what this means
     -- Some events have some lines of raw text that follow it, they are notes about
     -- the event and we ignore them here.
     with split_log as (
@@ -43,7 +42,7 @@ alter view git.school_experience_events as
 
         where
             dfe_notesforclassroomexperience is not null  -- only target SE-related rows
-            and value <> 'RTBF'                          -- no idea what RTBF stands for but looks like 'no data'!
+            and value <> 'RTBF'                          -- right to be forgotten - record scrubbed
             and value <> 'none'                          -- no data (why are these here?)
             and value not like 'RECORDED%'               -- not the header row
             and len(trim(value)) > 1                     -- not the empty row beneath the header
