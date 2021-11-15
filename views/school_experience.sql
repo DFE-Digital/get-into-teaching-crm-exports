@@ -37,8 +37,8 @@ alter view git.school_experience_events as
                 replace(
                     dfe_notesforclassroomexperience,
                     char(13)+char(10),
-                    char(13)
-                ), char(13)
+                    char(10)
+                ), char(10)
             )
 
         where
