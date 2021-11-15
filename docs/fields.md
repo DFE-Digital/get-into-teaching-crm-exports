@@ -63,3 +63,13 @@ We aim to maintain this overall risk at zero. Zero means that nobody should be i
 | `crm_contact`           | `dfe_applycreatedon` | `applied_on`   | 0         | Date applied                            | `date`          |
 | `crm_OptionSetMetadata` | `LocalizedLabel`     | `phase`        | 0         | Application phase (Phase 1, Phase 2)    | `varchar`       |
 | `crm_OptionSetMetadata` | `LocalizedLabel`     | `status`       | 0         | Current state of application from Apply | `varchar`       |
+
+## `git.school_experience_events`
+
+| Origin table  | Origin column                     | Reporting name            | PII risk  | Description                                                                            | Type      |
+| ------------  | -------------                     | --------------            | --------: | ------                                                                                 | ----      |
+| `crm_contact` | `Id`                              | `id`                      | 0         |                                                                                        | `uuid`    |
+| `crm_contact` | `dfe_notesforclassroomexperience` | `recorded_on`             | 0         | Date event occurred on                                                                 | `date`    |
+| `crm_contact` | `dfe_notesforclassroomexperience` | `event_type`              | 0         | Kind of event (REQUEST, ACCEPTED, CANCELLED, DID NOT ATTEND etc)                       | `varchar` |
+| `crm_contact` | `dfe_notesforclassroomexperience` | `experience_requested_on` | 0         | The date the experience is requested for                                               | `date`    |
+| `crm_contact` | `dfe_notesforclassroomexperience` | `urn`                     | 0         | The school's [urn](https://www.get-information-schools.service.gov.uk/glossary#ctrl-U) | `integer` |

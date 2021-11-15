@@ -27,7 +27,7 @@ alter view git.school_experience_events as
         select
             id,
             value as line
-    
+
         from
             crm_contact
             -- use cross apply with string_split to yield a row in the resultset PER
@@ -111,7 +111,7 @@ alter view git.school_experience_events as
                 else
                     substring(line, 44, 6)
             end as urn
-            
+
             -- debug line, useful for counting spaces!
             -- replace(line, ' ', '_'  )as whole_thing
         from
