@@ -3,7 +3,7 @@ create view git.applications as (
     -- a fuller picture of their journey
     select
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
-        c.id,
+        c.id as contact_id,
 
         -- when was the application made, both datetime and time
         convert(smalldatetime, c.dfe_applycreatedon) as applied_at,

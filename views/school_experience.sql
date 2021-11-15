@@ -126,7 +126,7 @@ alter view git.school_experience_events as
         parse(recorded as date using 'en-gb') as recorded_on,
 
         -- the type of event (see list above)
-        action as event_type,
+        trim(action) as event_type,
 
         -- the date the experience was requested for - TBC
         parse(exp_date as date using 'en-gb') as experience_requested_on,
