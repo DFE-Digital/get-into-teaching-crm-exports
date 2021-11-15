@@ -2,7 +2,7 @@ create view git.applications as (
     -- show all contacts who have actually made an application so we can build
     -- a fuller picture of their journey
     select
-    	-- contact id, matches contact_id in event_registrations, tta views etc (guid)
+        -- contact id, matches contact_id in event_registrations, tta views etc (guid)
         c.id,
 
         -- when was the application made, both datetime and time

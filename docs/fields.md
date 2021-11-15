@@ -53,3 +53,13 @@ We aim to maintain this overall risk at zero.
 | `crm_msevtmgt_eventregistration` | `createdon`          | `registered_at`           | 0         |                               | `smalldatetime`          |
 | `crm_msevtmgt_checkin`           | `createdon`          | `attendance_confirmed_at` | 0         |                               | `smalldatetime`          |
 | `crm_OptionSetMetadata`          | `LocalizedLabel`     | `creation_channel`        | 0         |                               | `varchar`                |
+
+## `git.applications`
+
+| Origin table            | Origin column        | Reporting name | PII risk  | Description                             | Type            |
+| ------------            | -------------        | -------------- | --------: | ------                                  | ----            |
+| `crm_contact`           | `Id`                 | `id`           | 0         | Contact identifier                      | `uuid`          |
+| `crm_contact`           | `dfe_applycreatedon` | `applied_at`   | 0         | Date and time applied                   | `smalldatetime` |
+| `crm_contact`           | `dfe_applycreatedon` | `applied_on`   | 0         | Date applied                            | `date`          |
+| `crm_OptionSetMetadata` | `LocalizedLabel`     | `phase`        | 0         | Application phase (Phase 1, Phase 2)    | `varchar`       |
+| `crm_OptionSetMetadata` | `LocalizedLabel`     | `status`       | 0         | Current state of application from Apply | `varchar`       |
