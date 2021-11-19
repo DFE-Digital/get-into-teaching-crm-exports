@@ -37,7 +37,7 @@ alter view git.events as (
 		-- raw events listing from Dynamics
 		crm_msevtmgt_event e
 
-	inner join
+	left outer join
 		-- raw buildings listing from Dynamics
 		crm_msevtmgt_building b
 			on e.msevtmgt_building = b.Id
