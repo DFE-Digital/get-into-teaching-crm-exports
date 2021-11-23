@@ -9,8 +9,21 @@ alter view git.events as (
 		b.msevtmgt_name as venue,
 
 		-- event start and finish times (e.g., 2021-05-25 17:30:00)
-		convert(smalldatetime, e.msevtmgt_eventstartdate) as starts_at,
-		convert(smalldatetime, e.msevtmgt_eventenddate) as finishes_at,
+		-- some are null and the date conversion fails so wrap
+		-- them in a case statment to check
+		case
+			when e.msevtmgt_eventstartdate is null
+				then null
+			else
+				convert(smalldatetime, e.msevtmgt_eventstartdate)	
+		end as starts_at,
+
+		case
+			when e.msevtmgt_eventenddate is null
+				then null
+			else
+				convert(smalldatetime, e.msevtmgt_eventstartdate)	
+		end as finishes_at,
 
 		-- the date on which the event starts. we assume there are
 		-- no multi-day events (none present at time of writing)
