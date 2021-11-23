@@ -44,7 +44,11 @@ alter view git.events as (
 		-- a standard format of a six digit number followed by manually-entered string
 		-- with words separated by dashes
 		-- (e.g., 210524-star-institute)
-		e.dfe_websiteeventpartialurl as partial_url
+		e.dfe_websiteeventpartialurl as partial_url,
+
+		-- the event type name
+		-- (e.g., 'Train to Teach event', 'School or university event')
+		et.[LocalizedLabel] as event_type
 
 	from
 		-- raw events listing from Dynamics
@@ -56,9 +60,15 @@ alter view git.events as (
 			on e.msevtmgt_building = b.Id
 
 	inner join
-		-- dynamics central EAV lookup
+		-- dynamics central EAV lookup (status)
 		crm_OptionSetMetadata es
 			on e.dfe_EventStatus = es.[Option]
 			and es.OptionSetName = 'dfe_eventstatus'
 			and es.EntityName = 'msevtmgt_event'
+
+	inner join
+		-- dynamics global EAV lookup (type)
+		crm_GlobalOptionSetMetadata et
+			on e.dfe_event_type = et.[Option]
+			and et.OptionSetName = 'dfe_event_type'
 );
