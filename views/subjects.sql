@@ -20,4 +20,7 @@ alter view git.subjects as (
     left outer join
         crm_dfe_teachingsubjectlist tsl2
             on c.dfe_preferredteachingsubject02 = tsl2.id
+
+    where
+        c.createdon >= '2019-01-01'
 );
