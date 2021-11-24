@@ -1,7 +1,7 @@
 alter view git.subjects as (
     -- retreive all contact ids along with the preferred subjects
     select
-    	-- contact id, unique contact identifier
+        -- contact id, unique contact identifier
         c.id as contact_id,
 
         -- the names of the two subjects chosen when signing up
