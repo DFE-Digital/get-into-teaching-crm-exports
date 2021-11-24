@@ -33,8 +33,11 @@ alter view git.event_registrations as (
 		-- the date the registration was made (e.g., 2021-05-30)
 		convert(date, er.createdon) as registered_on,
 
-		-- the date the attendance was confirmed (e.g., 2021-06-12)
+		-- the timestamp the attendance was confirmed at (e.g., 2021-05-30T10:12:34)
 		convert(smalldatetime, ci.createdon) as attendance_confirmed_at,
+
+		-- the date the attendance was confirmed (e.g., 2021-06-12)
+		convert(date, ci.createdon) as attendance_confirmed_on,
 
 		-- creation channel pulled from common lookup table via 'dfe_ChannelCreation'
 		cc.LocalizedLabel as creation_channel
