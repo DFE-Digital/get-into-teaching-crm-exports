@@ -1,13 +1,13 @@
-create view git.applications as (
+alter view git.applications as (
     -- show all contacts who have actually made an application so we can build
     -- a fuller picture of their journey
     select
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
-        c.id as contact_id,
+        af.id as contact_id,
 
         -- when was the application made, both datetime and time
-        convert(smalldatetime, c.dfe_applycreatedon) as applied_at,
-        convert(date, c.dfe_applycreatedon) as applied_on,
+        convert(smalldatetime, af.createdon) as applied_at,
+        convert(date, af.createdon) as applied_on,
 
         -- application phase, there appear to be two values:
         -- * Apply 1 (the first application)
@@ -20,24 +20,19 @@ create view git.applications as (
         status.localizedlabel as status
 
 from
-    crm_contact c
+    crm_dfe_applyapplicationform af
 
 left outer join
     -- dynamics central EAV lookup (application phase)
     crm_OptionSetMetadata phase
-        on c.dfe_candidateapplyphase = phase.[Option]
+        on af.dfe_applyphase = phase.[Option]
         and phase.optionsetname = 'dfe_candidateapplyphase'
         and phase.EntityName = 'contact'
 
 left outer join
     -- dynamics central EAV lookup (application status)
     crm_OptionSetMetadata status
-        on c.dfe_candidateapplystatus = status.[Option]
+        on af.dfe_applystatus = status.[Option]
         and status.optionsetname = 'dfe_candidateapplystatus'
-        and status.EntityName = 'contact'
-
-where
-    -- only return records for candidates who've
-    -- made an application
-    dfe_applycreatedon is not null
+        and status.EntityName = 'contact' 
 );
