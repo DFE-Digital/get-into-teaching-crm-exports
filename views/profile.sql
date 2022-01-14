@@ -24,9 +24,14 @@ alter view git.profile as (
         tsl2.dfe_name as preferred_teaching_subject_2,
 
         -- do we have a postcode for this candidate?
+        --
+        -- there appears to be some invalid data in this column so
+        -- we're using length as a proxy for validity, valid postcodes
+        -- range from 5 characters (with no space, A9 9AA) to 8
+        -- characters (with a space, AA99 9AA)
         case
-            when c.address1_postalcode is null then 'no'
-            else 'yes'
+            when len(c.address1_postalcode) between 5 and 8 then 'yes'
+            else 'no'
         end as has_postcode,
 
         -- do we have a date of birth for this candidate?
