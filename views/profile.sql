@@ -1,4 +1,4 @@
-create view git.profile as (
+alter view git.profile as (
     select
         -- contact id, the unique identifier for the candidate
         c.id,
@@ -21,7 +21,20 @@ create view git.profile as (
         -- * in School Experience - subject 2 is optional
         -- * in Get Into Teaching - subject 2 is not asked for
         tsl1.dfe_name as preferred_teaching_subject_1,
-        tsl2.dfe_name as preferred_teaching_subject_2
+        tsl2.dfe_name as preferred_teaching_subject_2,
+
+        -- do we have a postcode for this candidate?
+        case
+            when c.address1_postalcode is null then 'no'
+            else 'yes'
+        end as has_postcode,
+
+        -- do we have a date of birth for this candidate?
+        case
+            when c.birthdate is null then 'no'
+            else 'yes'
+        end as has_date_of_birth
+
     from
         crm_contact c
 
