@@ -38,7 +38,19 @@ alter view git.profile as (
         case
             when c.birthdate is null then 'no'
             else 'yes'
-        end as has_date_of_birth
+        end as has_date_of_birth,
+
+        -- the date and time an adviser was assigned
+        convert(smalldatetime, c.dfe_dateassignedtoadvisor) as adviser_assigned_at,
+
+        -- the date on which an adviser was assigned
+        convert(date, c.dfe_dateassignedtoadvisor) as adviser_assigned_on,
+
+        -- has an adviser been assigned?
+        case
+            when c.dfe_dateassignedtoadvisor is null then 'no'
+            else 'yes'
+        end as has_adviser
 
     from
         crm_contact c
@@ -63,7 +75,7 @@ alter view git.profile as (
     left outer join
         crm_dfe_teachingsubjectlist tsl1
             on c.dfe_preferredteachingsubject01 = tsl1.id
-            
+
     left outer join
         crm_dfe_teachingsubjectlist tsl2
             on c.dfe_preferredteachingsubject02 = tsl2.id

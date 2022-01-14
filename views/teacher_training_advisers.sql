@@ -38,19 +38,7 @@ alter view git.teacher_training_adviser_signups as (
 			when 0 then 'no'
 			when 1 then 'yes'
 			else null
-		end as opted_out_of_post,
-
-		-- the date and time an adviser was assigned
-		convert(smalldatetime, c.dfe_dateassignedtoadvisor) as adviser_assigned_at,
-
-		-- the date on which an adviser was assigned
-		convert(date, c.dfe_dateassignedtoadvisor) as adviser_assigned_on,
-
-		-- has an adviser been assigned?
-		case
-			when c.dfe_dateassignedtoadvisor is null then 'no'
-			else 'yes'
-		end as has_adviser
+		end as opted_out_of_post
 
 	from
 		-- dynamics primary list of contacts
