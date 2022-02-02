@@ -17,36 +17,20 @@ alter view git.mailing_list_subscriptions as (
 		sc.[localizedlabel] as subscription_channel,
 
 		-- is the contact still subscribed?
-		case c.dfe_gitismailinglistserviceissubscriber
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as still_subscribed,
+		c.dfe_gitismailinglistserviceissubscriber as still_subscribed,
 
 		-- TODO: clarify the relationship between opted_out_of_all_emails
 		--       and opted_out_of_bulk_emails. Does the former include the
 		--       latter? (i.e. is our 'all' in the column name accurate?)
 
 		-- has the contact opted out of emails?
-		case c.dfe_gitismailinglistservicedonotemail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_all_emails,
+		c.dfe_gitismailinglistservicedonotemail as opted_out_of_all_emails,
 
 		-- has the contact opted out bulk emails?
-		case c.dfe_gitismailinglistservicedonotbulkemail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_bulk_emails,
+		c.dfe_gitismailinglistservicedonotbulkemail as opted_out_of_bulk_emails,
 
 		-- has the contact opted out post?
-		case c.dfe_gitismailinglistservicedonotpostalmail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_post
+		c.dfe_gitismailinglistservicedonotpostalmail as opted_out_of_post
 
 	from
 		-- dynamics primary list of contacts

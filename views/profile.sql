@@ -30,14 +30,14 @@ alter view git.profile as (
         -- range from 5 characters (with no space, A9 9AA) to 8
         -- characters (with a space, AA99 9AA)
         case
-            when len(c.address1_postalcode) between 5 and 8 then 'yes'
-            else 'no'
+            when len(c.address1_postalcode) between 5 and 8 then 1
+            else 0
         end as has_postcode,
 
         -- do we have a date of birth for this candidate?
         case
-            when c.birthdate is null then 'no'
-            else 'yes'
+            when c.birthdate is null then 0
+            else 1
         end as has_date_of_birth,
 
         -- the date and time an adviser was assigned
@@ -46,11 +46,11 @@ alter view git.profile as (
         -- the date on which an adviser was assigned
         convert(date, c.dfe_dateassignedtoadvisor) as adviser_assigned_on,
 
-        -- has an adviser been assigned?
-        case
-            when c.dfe_dateassignedtoadvisor is null then 'no'
-            else 'yes'
-        end as has_adviser
+		-- has an adviser been assigned?
+		case
+			when c.dfe_dateassignedtoadvisor is null then 0
+			else 1
+		end as has_adviser
 
     from
         crm_contact c

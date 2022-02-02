@@ -20,25 +20,13 @@ alter view git.teacher_training_adviser_signups as (
 		--       latter? (i.e. is our 'all' in the column name accurate?)
 
 		-- has the contact opted out of all TTA emails?
-		case c.dfe_gitisttaservicedonotemail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_all_emails,
+		c.dfe_gitisttaservicedonotemail as opted_out_of_all_emails,
 
 		-- has the contact opted out of all TTA bulk emails?
-		case c.dfe_gitismailinglistservicedonotbulkemail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_bulk_emails,
+		c.dfe_gitismailinglistservicedonotbulkemail as opted_out_of_bulk_emails,
 
 		-- has the contact opted out post?
-		case c.dfe_gitisttaservicedonotpostalmail
-			when 0 then 'no'
-			when 1 then 'yes'
-			else null
-		end as opted_out_of_post
+		c.dfe_gitisttaservicedonotpostalmail as opted_out_of_post
 
 	from
 		-- dynamics primary list of contacts
