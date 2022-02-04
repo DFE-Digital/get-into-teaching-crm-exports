@@ -22,7 +22,7 @@ alter view git.events as (
 			when e.msevtmgt_eventenddate is null
 				then null
 			else
-				convert(smalldatetime, e.msevtmgt_eventstartdate)	
+				convert(smalldatetime, e.msevtmgt_eventenddate)	
 		end as finishes_at,
 
 		-- the date on which the event starts. we assume there are
