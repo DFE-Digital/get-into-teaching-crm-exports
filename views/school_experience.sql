@@ -1,4 +1,4 @@
-alter view git.school_experiences as (
+alter view git.school_experience_requests as (
     select
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
         se.dfe_contactid as contact_id,
