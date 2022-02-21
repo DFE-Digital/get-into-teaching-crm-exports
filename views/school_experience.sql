@@ -13,7 +13,22 @@ alter view git.school_experience_requests as (
         cast(se.dfe_dateofschoolexperience as date) as placement_date,
 
         -- the length of the placement in days
-        se.dfe_placementduration as duration
+        se.dfe_placementduration as duration,
+
+        -- event status, the state change on the request record
+        -- made by School Experience.
+        --
+        -- Values are:
+        --
+        -- Requested                   1
+        -- Inactive                    2
+        -- Confirmed                   222_750_000
+        -- Withdrawn                   222_750_001
+        -- Rejected                    222_750_002
+        -- Cancelled by school         222_750_003
+        -- Cancelled by candidate      222_750_004
+        -- Completed                   222_750_005
+        smd.localizedlabel as status
 
     from
         crm_dfe_candidateschoolexperience se
@@ -21,6 +36,11 @@ alter view git.school_experience_requests as (
     left outer join 
         crm_dfe_teachingsubjectlist s
             on s.id = se.dfe_teachingsubject  
+    
+    left outer join
+        crm_StatusMetaData smd
+            on se.statuscode = smd.Status
+            and smd.EntityName = 'dfe_candidateschoolexperience'
 
     where
         -- rows without a URN are legacy experiences imported
