@@ -50,8 +50,18 @@ alter view git.profile as (
 		case
 			when c.dfe_dateassignedtoadvisor is null then 0
 			else 1
-		end as has_adviser
+		end as has_adviser,
 
+        -- is the candidate from somewhere other than the UK?
+        case
+            -- assume domestic when nothing specified
+            when c.dfe_country is null
+                then 0
+            when country.dfe_name = 'United Kingdom'
+                then 0
+            else 
+                1
+        end as international
     from
         crm_contact c
 
@@ -79,6 +89,10 @@ alter view git.profile as (
     left outer join
         crm_dfe_teachingsubjectlist tsl2
             on c.dfe_preferredteachingsubject02 = tsl2.id
+
+    left outer join
+        crm_dfe_country country
+            on c.dfe_country = country.id
 
     where
         c.createdon >= '2019-01-01'
