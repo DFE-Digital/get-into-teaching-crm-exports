@@ -61,7 +61,15 @@ alter view git.profile as (
                 then 0
             else 
                 1
-        end as international
+        end as international,
+
+        -- is the candidate fresh or are they returning to teaching?
+        case
+            when toc.[LocalizedLabel] = 'RTT'
+                then 1
+            else
+                0
+        end as returner
     from
         crm_contact c
 
@@ -93,6 +101,11 @@ alter view git.profile as (
     left outer join
         crm_dfe_country country
             on c.dfe_country = country.id
+
+    left outer join
+        crm_GlobalOptionSetMetaData toc
+            on c.dfe_typeofcandidate = toc.[Option]
+            and toc.OptionSetName = 'dfe_typeofcandidate'        
 
     where
         c.createdon >= '2019-01-01'
