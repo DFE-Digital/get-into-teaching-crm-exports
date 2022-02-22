@@ -69,7 +69,32 @@ alter view git.profile as (
                 then 1
             else
                 0
-        end as returner
+        end as returner,
+
+        -- most frequent candidate countries, don't return any
+        -- with just a few candidates so we can't identify anyone
+        case
+            when country.dfe_name in (
+                'United Kingdom',
+                'India',
+                'Nigeria',
+                'United States',
+                'South Africa',
+                'China',
+                'Pakistan',
+                'Spain',
+                'Hong Kong',
+                'Ghana',
+                'France',
+                'United Arab Emirates',
+                'Italy',
+                'Republic Of Ireland',
+                'Germany'
+            )
+            then country.dfe_name
+        else
+            'Other'
+        end as country
     from
         crm_contact c
 
