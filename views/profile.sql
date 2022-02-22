@@ -86,8 +86,10 @@ alter view git.profile as
         -- most frequent candidate countries, don't return any
         -- with just a few candidates so we can't identify anyone
         case
+            when c.dfe_country is null
+                then 'Unknown'
             when c.dfe_country in (select * from countries_with_600_candidates)
-            then country.dfe_name
+                then country.dfe_name
         else
             'Other'
         end as country
