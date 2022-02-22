@@ -95,7 +95,7 @@ alter view git.profile as (
             )
             then country.dfe_name
         else 
-            'other'
+            'Other'
         end as country
     from
         crm_contact c
