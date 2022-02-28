@@ -28,7 +28,10 @@ alter view git.school_experience_requests as (
         -- Cancelled by school         222_750_003
         -- Cancelled by candidate      222_750_004
         -- Completed                   222_750_005
-        smd.localizedlabel as status
+        smd.localizedlabel as status,
+
+        se.createdon as event_occurred_at,
+        convert(date, se.createdon) as event_occurred_on
 
     from
         crm_dfe_candidateschoolexperience se
