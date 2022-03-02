@@ -1,16 +1,4 @@
-alter view git.profile as
-    with countries_with_600_candidates as (
-        select
-            c.dfe_country
-        from
-            crm_contact c
-        where
-            c.createdon >= '2019-01-01'
-        group by 
-            c.dfe_country
-        having
-            count(*) >= 600
-    )
+alter view git.profile as (
     select
         -- contact id, the unique identifier for the candidate
         c.id,
@@ -86,10 +74,26 @@ alter view git.profile as
         -- most frequent candidate countries, don't return any
         -- with just a few candidates so we can't identify anyone
         case
-            when c.dfe_country is null
+            when country.dfe_name is null
                 then 'Unknown'
-            when c.dfe_country in (select * from countries_with_600_candidates)
-                then country.dfe_name
+            when country.dfe_name in (
+                'United Kingdom',
+                'India',
+                'Nigeria',
+                'United States',
+                'South Africa',
+                'China',
+                'Pakistan',
+                'Spain',
+                'Hong Kong',
+                'Ghana',
+                'France',
+                'United Arab Emirates',
+                'Italy',
+                'Republic Of Ireland',
+                'Germany'
+            )
+            then country.dfe_name
         else
             'Other'
         end as country
@@ -132,4 +136,5 @@ alter view git.profile as
 
     where
         c.createdon >= '2019-01-01'
-;
+
+);
