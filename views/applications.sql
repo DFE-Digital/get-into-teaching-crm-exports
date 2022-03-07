@@ -2,8 +2,11 @@ alter view git.applications as (
     -- show all contacts who have actually made an application so we can build
     -- a fuller picture of their journey
     select
+        -- application id, primary key
+        af.id as id,
+        
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
-        af.id as contact_id,
+        af.dfe_contact as contact_id,
 
         -- when was the application made, both datetime and time
         convert(smalldatetime, af.createdon) as applied_at,

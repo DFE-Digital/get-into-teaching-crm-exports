@@ -1,5 +1,8 @@
 alter view git.school_experience_requests as (
     select
+        -- school experience id, primary key
+        se.id as id,
+
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
         se.dfe_contactid as contact_id,
 
