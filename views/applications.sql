@@ -17,6 +17,8 @@ alter view git.applications as (
         -- * Apply 2 (any subsequent application)
         phase.localizedlabel as phase,
 
+        -- the recuitment cycle that the application belongs to in single year format,
+        -- eg 2019, 2020, 2021
         ry.localizedlabel as recruitment_year,
 
         -- when the application was completed, both datetime and time
