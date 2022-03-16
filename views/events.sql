@@ -48,7 +48,19 @@ alter view git.events as (
 
 		-- the event type name
 		-- (e.g., 'Train to Teach event', 'School or university event')
-		et.[LocalizedLabel] as event_type
+		et.[LocalizedLabel] as event_type,
+
+		-- is the event online only?
+		e.dfe_isonlineevent as [online],
+		
+		-- virtual events are online but have a building because they're
+		-- relevant to people searching by area - for example a provider
+		-- in Newcastle wants to attract local people to their event, even
+		-- if they don't attend in person
+		case
+			when (e.dfe_isonlineevent = 1 and b.msevtmgt_postalcode is not null) then 1
+			else 0
+		end as virtual
 
 	from
 		-- raw events listing from Dynamics
