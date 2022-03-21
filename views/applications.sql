@@ -55,4 +55,7 @@ left outer join
         on af.dfe_recruitmentyear = ry.[Option]
         and ry.optionsetname = 'dfe_recruitmentyear'
         and ry.EntityName = 'dfe_applyapplicationform' 
+
+where
+    dfe_contact is not null
 );
