@@ -1,8 +1,5 @@
 alter view git.school_experience_requests as (
     select
-        -- school experience id, primary key
-        se.id as id,
-
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
         se.dfe_contactid as contact_id,
 
@@ -34,7 +31,10 @@ alter view git.school_experience_requests as (
         smd.localizedlabel as status,
 
         se.createdon as event_occurred_at,
-        convert(date, se.createdon) as event_occurred_on
+        convert(date, se.createdon) as event_occurred_on,
+
+        -- school experience id, primary key
+        se.id as id
 
     from
         crm_dfe_candidateschoolexperience se

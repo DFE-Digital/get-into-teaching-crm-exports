@@ -1,40 +1,36 @@
 alter view git.applications as (
     -- show all contacts who have actually made an application so we can build
     -- a fuller picture of their journey
-    select
-        -- application id, primary key
-        af.id as id,
-        
+    select        
         -- contact id, matches contact_id in event_registrations, tta views etc (guid)
         af.dfe_contact as contact_id,
 
-        -- when was the application started, both datetime and time
-        convert(smalldatetime, af.createdon) as application_started_at,
-        convert(date, af.createdon) as application_started_on,
+        -- when the application was completed, both datetime and time
+        af.dfe_submittedatdate as applied_at,
+        convert(date, af.dfe_submittedatdate) as applied_on,
 
         -- application phase, there appear to be two values:
         -- * Apply 1 (the first application)
         -- * Apply 2 (any subsequent application)
         phase.localizedlabel as phase,
 
+        -- application status, these are states from Apply's state machine
+        --
+        -- https://github.com/dfe-digital/apply-for-teacher-training#application-states
+        status.localizedlabel as status,
+
+        -- application id, primary key
+        af.id as id,
+
         -- the recuitment cycle that the application belongs to in single year format,
         -- eg 2019, 2020, 2021
         ry.localizedlabel as recruitment_year,
-
-        -- when the application was completed, both datetime and time
-        af.dfe_submittedatdate as applied_at,
-        convert(date, af.dfe_submittedatdate) as applied_on,
 
         -- flag that tells us whether this is a complete application
         case
             when af.dfe_submittedatdate is null then 0
             else 1
-        end as application_complete,
-
-        -- application status, these are states from Apply's state machine
-        --
-        -- https://github.com/dfe-digital/apply-for-teacher-training#application-states
-        status.localizedlabel as status
+        end as application_complete
 
 from
     crm_dfe_applyapplicationform af
