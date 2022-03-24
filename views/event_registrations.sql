@@ -1,4 +1,16 @@
-alter view git.event_registrations as (
+alter view git.event_registrations as
+	-- some legacy registrations have more than one
+	-- check in associated with them
+	-- we only need one so just use the earliest
+	with check_ins as (
+		select
+			msevtmgt_registrationid,
+			min(createdon) as createdon
+		from	
+			crm_msevtmgt_checkin
+		group by
+			msevtmgt_registrationid
+	)
 	-- shows a full list of event registrations. A registration
 	-- is a record that joins an event with a contact and potentially
 	-- a checkin.
@@ -20,7 +32,7 @@ alter view git.event_registrations as (
 		--        an opportunity for the registrant to confirm attendance
 		-- when 'no' the registrant did not attend
 		case
-		when ci.id is not null
+		when ci.msevtmgt_registrationid is not null
 			then 'yes'
 		when e.msevtmgt_eventenddate > dateadd(week, -1, getdate())
 			then 'unknown'
@@ -49,7 +61,7 @@ alter view git.event_registrations as (
 	left outer join
 		-- raw checkins list from dynamics. may or may not exist so left outer
 		-- join to include both attended and not-attended registrations
-		crm_msevtmgt_checkin ci
+		check_ins ci
 			on er.Id = ci.msevtmgt_registrationid
 
 	inner join
@@ -62,6 +74,4 @@ alter view git.event_registrations as (
 		crm_OptionSetMetadata cc
 			on er.dfe_ChannelCreation = cc.[Option]
 			and cc.OptionSetName = 'dfe_channelcreation'
-			and cc.EntityName = 'msevtmgt_eventregistration'
-
-);
+			and cc.EntityName = 'msevtmgt_eventregistration';
