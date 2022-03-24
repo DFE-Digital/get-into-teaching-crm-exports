@@ -1,4 +1,22 @@
-alter view git.profile as (
+alter view git.profile as
+
+    -- there are multiple qualification records for some contacts
+    -- which are usually exact dupicates or null.
+    --
+    -- i don't really
+    -- understand why or how to identify the _correct_ one, so
+    -- we'll just choose max which will at least choose one that's
+    -- not null ¯\_(ツ)_/¯
+    with deduped_qualifications as (     
+        select
+            dfe_contactid,
+            max(dfe_degreestatus) as dfe_degreestatus
+        from
+            crm_dfe_candidatequalification
+        group by
+            dfe_contactid
+    )
+    
     select
         -- contact id, the unique identifier for the candidate
         c.id,
@@ -102,14 +120,16 @@ alter view git.profile as (
 
     left outer join
         -- list of candidate qualifications
-        crm_dfe_candidatequalification cq
+        deduped_qualifications cq
             on c.id = cq.dfe_contactid
+            and cq.dfe_degreestatus is not null
 
     left outer join
         -- dynamics global EAV lookup
         crm_GlobalOptionSetMetaData ds
             on cq.dfe_degreestatus = ds.[Option]
             and ds.[OptionSetName] = 'dfe_degreestatus'
+            and ds.LocalizedLabel is not null
 
     left outer join
         -- dynamics central EAV lookup
@@ -137,4 +157,4 @@ alter view git.profile as (
     where
         c.createdon >= '2019-01-01'
 
-);
+-- );
