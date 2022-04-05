@@ -116,7 +116,12 @@ alter view git.profile as
             'Other'
         end as country,
 
-        cc.localizedLabel as creation_channel
+        cc.localizedLabel as creation_channel,
+
+        case
+            when cc.localizedLabel = 'Apply for Teacher Training' then 1 
+            else 0
+        end as created_via_git_bat_sync
 
     from
         crm_contact c
