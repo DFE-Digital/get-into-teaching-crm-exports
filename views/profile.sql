@@ -114,7 +114,10 @@ alter view git.profile as
             then country.dfe_name
         else
             'Other'
-        end as country
+        end as country,
+
+        cc.localizedLabel as creation_channel
+
     from
         crm_contact c
 
@@ -138,6 +141,12 @@ alter view git.profile as
             and ls.OptionSetName = 'dfe_lifestage'
 
     left outer join
+        -- dynamics central EAV lookup
+        crm_OptionSetMetadata cc
+            on c.dfe_channelcreation = cc.[Option]
+            and cc.OptionSetName = 'dfe_channelcreation'
+
+    left outer join
         crm_dfe_teachingsubjectlist tsl1
             on c.dfe_preferredteachingsubject01 = tsl1.id
 
@@ -156,5 +165,4 @@ alter view git.profile as
 
     where
         c.createdon >= '2019-01-01'
-
--- );
+;
