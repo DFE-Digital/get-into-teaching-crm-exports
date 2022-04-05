@@ -144,12 +144,14 @@ alter view git.profile as
         crm_OptionSetMetadata ls
             on c.dfe_lifestage = ls.[Option]
             and ls.OptionSetName = 'dfe_lifestage'
+            and ls.entityname = 'contact'
 
     left outer join
         -- dynamics central EAV lookup
         crm_OptionSetMetadata cc
             on c.dfe_channelcreation = cc.[Option]
             and cc.OptionSetName = 'dfe_channelcreation'
+            and cc.entityname = 'contact'
 
     left outer join
         crm_dfe_teachingsubjectlist tsl1
