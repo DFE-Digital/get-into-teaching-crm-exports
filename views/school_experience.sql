@@ -23,11 +23,12 @@ alter view git.school_experience_requests as (
         -- Requested                   1
         -- Inactive                    2
         -- Confirmed                   222_750_000
-        -- Withdrawn                   222_750_001
+        -- Did not attend              222_750_001
         -- Rejected                    222_750_002
         -- Cancelled by school         222_750_003
         -- Cancelled by candidate      222_750_004
         -- Completed                   222_750_005
+        -- Withdrawn                   222_750_006
         smd.localizedlabel as status,
 
         se.createdon as event_occurred_at,
