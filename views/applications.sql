@@ -30,7 +30,15 @@ alter view git.applications as (
         case
             when af.dfe_submittedatdate is null then 0
             else 1
-        end as application_complete
+        end as application_complete,
+
+        -- is this application deemed successful? we're calling this column 'success'
+        -- but 'not failed yet' is a more accurate description as it contains pending
+        -- and deferred applications
+        case
+            when status.localizedlabel in ('Recruited', 'Pending conditions', 'Offer deferred') then 1
+            else 0
+        end as success
 
 from
     crm_dfe_applyapplicationform af
