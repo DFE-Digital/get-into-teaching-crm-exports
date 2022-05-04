@@ -121,7 +121,9 @@ alter view git.profile as
         case
             when cc.localizedLabel = 'Apply for Teacher Training' then 1 
             else 0
-        end as created_via_git_bat_sync
+        end as created_via_git_bat_sync,
+
+        pc.isduplicate as duplicate
 
     from
         crm_contact c
@@ -170,6 +172,14 @@ alter view git.profile as
             on c.dfe_typeofcandidate = toc.[Option]
             and toc.OptionSetName = 'dfe_typeofcandidate'        
 
+    left outer join
+        -- this table contains an indicator of whether the contact
+        -- record is a duplicate or not. This is being added
+        -- temporarily for Markteting PASS work and will be deleted
+        -- afterwards, this should be fixed in the data rather than
+        -- on-the-fly.
+        powerbi.crm_contact pc
+            on c.id = pc.id
     where
         c.createdon >= '2019-01-01'
 ;
