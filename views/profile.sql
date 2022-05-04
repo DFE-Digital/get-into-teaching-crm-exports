@@ -123,7 +123,10 @@ alter view git.profile as
             else 0
         end as created_via_git_bat_sync,
 
-        pc.isduplicate as duplicate
+        case
+            when pc.isduplicate = 1 then 1
+            else 0
+        end as duplicate
 
     from
         crm_contact c
@@ -174,7 +177,6 @@ alter view git.profile as
         crm_GlobalOptionSetMetaData toc
             on c.dfe_typeofcandidate = toc.[Option]
             and toc.OptionSetName = 'dfe_typeofcandidate'        
-            and toc.OptionSetName = 'dfe_typeofcandidate'
 
     left outer join
         -- this table contains an indicator of whether the contact
