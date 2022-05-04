@@ -155,10 +155,12 @@ alter view git.profile as
             and cc.OptionSetName = 'dfe_channelcreation'
             and cc.entityname = 'contact'
 
+    -- all transactions require at least one subject to be selected
     left outer join
         crm_dfe_teachingsubjectlist tsl1
             on c.dfe_preferredteachingsubject01 = tsl1.id
 
+    -- school experience allows two subjects
     left outer join
         crm_dfe_teachingsubjectlist tsl2
             on c.dfe_preferredteachingsubject02 = tsl2.id
@@ -168,9 +170,11 @@ alter view git.profile as
             on c.dfe_country = country.id
 
     left outer join
+        -- dynamics central EAV lookup
         crm_GlobalOptionSetMetaData toc
             on c.dfe_typeofcandidate = toc.[Option]
             and toc.OptionSetName = 'dfe_typeofcandidate'        
+            and toc.OptionSetName = 'dfe_typeofcandidate'
 
     left outer join
         -- this table contains an indicator of whether the contact
