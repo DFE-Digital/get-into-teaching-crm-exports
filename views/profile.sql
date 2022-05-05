@@ -126,7 +126,11 @@ alter view git.profile as
         case
             when pc.isduplicate = 1 then 1
             else 0
-        end as duplicate
+        end as duplicate,
+
+        c.createdon as created_at,
+        convert(date, c.createdon) as created_on,
+        rs.localizedLabel as recruitment_stage
 
     from
         crm_contact c
@@ -158,6 +162,13 @@ alter view git.profile as
             and cc.OptionSetName = 'dfe_channelcreation'
             and cc.entityname = 'contact'
 
+    left outer join
+        -- dynamics central EAV lookup
+        crm_OptionSetMetadata rs
+            on c.dfe_recruitmentstage = rs.[Option]
+            and rs.OptionSetName = 'dfe_recruitmentstage'
+            and rs.entityname = 'contact'
+
     -- all transactions require at least one subject to be selected
     left outer join
         crm_dfe_teachingsubjectlist tsl1
@@ -186,6 +197,4 @@ alter view git.profile as
         -- on-the-fly.
         powerbi.crm_contact pc
             on c.id = pc.id
-    where
-        c.createdon >= '2019-01-01'
 ;
