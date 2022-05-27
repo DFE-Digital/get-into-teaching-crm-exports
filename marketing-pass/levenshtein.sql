@@ -1,4 +1,4 @@
--- Levensthein disstance, sourced from TAD
+-- Levensthein distance, sourced from TAD
 CREATE FUNCTION [fuzzy].[lev](@s nvarchar(4000), @t nvarchar(4000), @d int)
 RETURNS int
 AS
