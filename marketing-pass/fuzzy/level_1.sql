@@ -27,15 +27,7 @@ inner join
     fuzzy.crm_contacts c 
         on a.first_name = c.first_name
         and a.last_name = c.last_name
-where
-    a.email_address <> c.email_address
-and
-    a.first_name is not null
-and
-    a.first_name not in (' ', '.')
-and
-    (a.first_name <> 'a' and a.last_name <> 'b')
-and (
+where (
     --Edit-distance=1 on DOB
     --  TAD_UserSpace.DataInsights.Edit_Distance_Within(cast(a.dob as varchar(10)),cast(b.dob as varchar(10)),1)<>999
 

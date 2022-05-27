@@ -22,7 +22,14 @@ select
 into
     fuzzy.apply_contacts
 from
-    [powerbi].[crm_contact_applyData_26052022] 
+    [powerbi].[crm_contact_applyData_27052022] 
+
+where
+    firstname is not null
+and
+    firstname not in (' ', '.')
+and
+    (firstname <> 'a' and lastname <> 'b')
 ;
 
 drop table if exists fuzzy.crm_contacts;
@@ -68,6 +75,12 @@ and
     c.dfe_applyid is null
 and
     pc.isduplicate is null
+and
+    c.firstname is not null
+and
+    c.firstname not in (' ', '.')
+and
+    (c.firstname <> 'a' and c.lastname <> 'b')
 ;
 
 create index apply_first_name on fuzzy.apply_contacts (first_name);
