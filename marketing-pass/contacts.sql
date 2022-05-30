@@ -7,6 +7,24 @@ drop table if exists fuzzy.apply_contacts;
 --
 -- note we're replacing â€™ with a "'" to replace
 -- fancy quotes with regular ones
+
+-- isolate unmatched applicants so we're not fuzzy-matching
+-- the entire cohort, just those who failed to match via
+-- the GIT/BAT sync
+with unmatched_applicants as (
+    -- doing this against the raw tables for speed
+    select
+        distinct(dfe_applicationformid) 
+    from
+        crm_contact c
+    inner join
+        crm_dfe_applyapplicationform a
+            on c.id = a.dfe_contact
+    where
+        c.dfe_channelcreation = 222750025  -- apply for teacher training
+    and
+        a.dfe_submittedatdate is not null -- application submitted    
+)
 select
     trim(lower(emailaddress1)) as email_address,
     replace(trim(lower(firstname)), 'â€™', '''') as first_name,
@@ -30,6 +48,8 @@ and
     firstname not in (' ', '.')
 and
     (firstname <> 'a' and lastname <> 'b')
+and
+    dfe_applyid in (select dfe_applicationformid from unmatched_applicants)
 ;
 
 drop table if exists fuzzy.crm_contacts;
@@ -73,8 +93,6 @@ where
     cc.localizedLabel <> 'Apply for Teacher Training'
 and
     c.dfe_applyid is null
-and
-    pc.isduplicate is null
 and
     c.firstname is not null
 and
