@@ -112,13 +112,7 @@ select
     when t.transaction_date between '2023-09-01' and '2024-08-31' then '2023-2024'
   end as marketing_cycle,
 
-  case
-    when t.transaction_date between '2019-10-12' and '2020-10-11' then '2019-2020'
-    when t.transaction_date between '2020-10-12' and '2021-10-11' then '2020-2021'
-    when t.transaction_date between '2021-10-12' and '2022-10-11' then '2021-2022'
-    when t.transaction_date between '2022-10-12' and '2023-10-11' then '2022-2023'
-    when t.transaction_date between '2023-10-12' and '2024-10-11' then '2023-2024'
-  end as application_cycle,
+  cd.recruitment_cycle_year,
 
   -- note some people sign up for the mailing list while registering for an
   -- event so there's a possibility they have two 'first transactions'
@@ -143,4 +137,7 @@ left outer join
     on t.contact_id = ft.contact_id
     and t.transaction_date_and_time = ft.first_transaction_date_and_time
     and t.transaction = ft.transaction
+left outer join
+  `rugged-abacus-218110.dataform.find_cycle_dates_key_events` cd
+    on t.transaction_date = cd.date
 ;
