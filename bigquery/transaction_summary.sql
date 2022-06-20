@@ -81,7 +81,7 @@ select
     when sa.contact_id is not null then true
     else false
   end as has_made_successful_application,
-  pe.eligibilty,
+
   p.chosen_subject,
   p.international,
   p.has_adviser,
@@ -95,6 +95,14 @@ select
   p.recruitment_stage,
   p.created_at as profile_created_at,
   p.created_on as profile_created_on,
+
+  case
+      when p.degree_status in ('Final year', 'Graduate or postgraduate')
+      then 'Eligible'
+      when p.degree_status in ('First year', 'Second year')
+      then 'Pipeline'
+      else 'Ineligible'
+  end as eligibilty,
 
   case
     when t.transaction_date between '2019-09-01' and '2020-08-31' then '2019-2020'
@@ -124,9 +132,6 @@ from
 left outer join
   candidates_who_applied a
     on t.contact_id = a.contact_id
-left outer join
-  `get-into-teaching.transactions.profile_eligibility` pe
-    on t.contact_id = pe.contact_id
 left outer join
   `get-into-teaching.transactions.profile` p
     on t.contact_id = p.id  
